@@ -1,0 +1,753 @@
+
+[uuid(3d67e25b-9148-4bd6-92cb-e6db129f0511), version(1.2), helpstring("GPX Accelerator v1.2")]
+library gdxacl
+{
+	importlib("stdole2.tlb");
+
+	typedef enum {
+		AC_SRC_OVER = 0x0,
+		AC_SRC_ALPHA = 0x1,
+		AC_SRC_NO_PREMULT_ALPHA = 0x1,
+		AC_SRC_NO_ALPHA = 0x2,
+		AC_DST_NO_PREMULT_ALPHA = 0x10,
+		AC_DST_NO_ALPHA = 0x20,
+		LWA_COLORKEY = 0x1,
+		LWA_ALPHA = 0x2,
+		ULW_COLORKEY = 0x1,
+		ULW_ALPHA = 0x2,
+		ULW_OPAQUE = 0x4,
+	} eGAC_LAYERED;
+
+	typedef enum {
+		SRCCOPY = 0xCC0020,
+		SRCPAINT = 0xEE0086,
+		SRCAND = 0x8800C6,
+		SRCINVERT = 0x660046,
+		SRCERASE = 0x440328,
+		NOTSRCCOPY = 0x330008,
+		NOTSRCERASE = 0x1100A6,
+		MERGECOPY = 0xC000CA,
+		MERGEPAINT = 0xBB0226,
+		PATCOPYX = 0xF00021,
+		PATPAINT = 0xFB0A09,
+		PATINVERT = 0xC5A0049,
+		DSTINVERT = 0x550009,
+		BLACKNESS = 0x42,
+		WHITENESS = 0xFF0062,
+	} eGAC_RASTER;
+
+	typedef enum {
+		TME_HOVER = 0x1,
+		TME_LEAVE = 0x2,
+		TME_QUERY = 0x40000000,
+		TME_CANCEL = 0x80000000,
+	} eTRACKMOUSEFLAGS;
+
+	typedef struct {
+		long				lfHeight;
+		long				lfWidth;
+		long				lfEscapement;
+		long				lfOrientation;
+		long				lfWeight;
+		byte				lfItalic;
+		byte				lfUnderline;
+		byte				lfStrikeOut;
+		byte				lfCharSet;
+		byte				lfOutPrecision;
+		byte				lfClipPrecision;
+		byte				lfQuality;
+		byte				lfPitchAndFamily;
+		long				lfFaceName;
+	} tLOGFONT;
+
+	typedef struct {
+		long				bmType;
+		long				bmWidth;
+		long				bmHeight;
+		long				bmWidthBytes;
+		short				bmPlanes;
+		short				bmBitsPixel;
+		long				bmBits;
+	} tBITMAP;
+
+	typedef struct {
+		long				biSize;
+		long				biWidth;
+		long				biHeight;
+		short				biPlanes;
+		short				biBitCount;
+		long				biCompression;
+		long				biSizeImage;
+		long				biXPelsPerMeter;
+		long				biYPelsPerMeter;
+		long				biClrUsed;
+		long				biClrImportant;
+	} tBITMAPINFOHEADER;
+
+	typedef struct {
+		long				x;
+		long				y;
+		short				Red;
+		short				Green;
+		short				Blue;
+		short				alpha;
+	} tTRIVERTEX;
+
+	typedef struct { 
+		long				UpperLeft; 
+		long				LowerRight; 
+	} tGRADIENTRECT;
+
+	typedef struct { 
+		long				Left; 
+		long				Top;
+		long				Right; 
+		long				Bottom; 
+	} tRECT;
+
+	typedef struct { 
+		long				x; 
+		long				y; 
+	} tPOINT;
+
+	typedef struct {
+		long				cbSize;
+		long				Style;
+		long				lpfnWndProc;
+		long				cbClsExtra;
+		long				cbWndExtra;
+		long				hInstance;
+		long				hIcon;
+		long				hCursor;
+		long				hbrBackground;
+		long				lpszMenuName;
+		long				lpszClassName;
+		long				hIconSm;
+	} tWNDCLASSEX;
+
+	typedef struct {
+		long				dwOSVersionInfoSize;
+		long				dwMajorVersion;
+		long				dwMinorVersion;
+		long				dwBuildNumber;
+		long				dwPlatformId;
+		byte				szCSDVersion[128];
+	} tOSVERSIONINFO;
+
+	typedef struct {
+		byte				BlendOp;
+		byte				BlendFlags;
+		byte				SourceConstantAlpha;
+		byte				AlphaFormat;
+	} tBLENDFUNCTION;
+
+	typedef struct {
+		long				cbSize;
+		eTRACKMOUSEFLAGS	dwFlags;
+		long				hwndTrack;
+		long				dwHoverTime;
+	} tTRACKMOUSEEVENT;
+
+	typedef struct {
+		long				cElements;
+		long				lLbound;
+	} tSAFEARRAYBOUND;
+
+	typedef struct {
+		short				cDims;
+		short				fFeatures;
+		long				cElements;
+		long				cLocks;
+		long				pvData;
+		tSAFEARRAYBOUND		Bounds;
+	} tSAFEARRAY1D;
+
+	typedef struct {
+		short				cDims;
+		short				fFeatures;
+		long				cElements;
+		long				cLocks;
+		long				pvData;
+		tSAFEARRAYBOUND		Bounds[2];
+	} tSAFEARRAY2D;
+
+	typedef struct {
+		long				lbStyle;
+		long				lbColor;
+		long				lbHatch;
+	} tLOGBRUSH;
+
+	typedef struct {
+		long				CtlType;
+		long				CtlID;
+		long				itemID;
+		long				itemWidth;
+		long				itemHeight;
+		long				itemData;
+	} tMEASUREITEMSTRUCT;
+
+	typedef struct {
+		long				CtlType;
+		long				CtlID;
+		long				itemID;
+		long				itemAction;
+		long				itemState;
+		long				hwndItem;
+		long				hdc;
+		tRECT				rcItem;
+		long				itemData;
+	} tDRAWITEMSTRUCT;
+
+	typedef struct {
+		long				cbSize;
+		long				fMask;
+		long				fType;
+		long				fState;
+		long				wID;
+		long				hSubMenu;
+		long				hbmpChecked;
+		long				hbmpUnchecked;
+		long				dwItemData;
+		long				dwTypeData;
+		long				cch;
+	} tMENUITEMINFO;
+
+	typedef struct {
+		long				cbSize;
+		long				fMask;
+		long				fType;
+		long				fState;
+		long				wID;
+		long				hSubMenu;
+		long				hbmpChecked;
+		long				hbmpUnchecked;
+		long				dwItemData;
+		long				dwTypeData;
+		long				cch;
+	} tMENUITEMINFO_STRINGDATA;
+
+
+	typedef struct {
+		short				mtOption;
+		short				mtID;
+		byte				mtString;
+	} tMENUITEMTEMPLATE;
+
+	typedef struct {
+		short				versionNumber;
+		short				Offset;
+	} tMENUITEMTEMPLATEHEADER;
+
+	typedef struct {
+		long				cbSize;
+		tRECT				rcExclude;
+	} tTPMPARAMS;
+
+	typedef struct {
+		tPOINT				ptReserved;
+		tPOINT				ptMaxSize;
+		tPOINT				ptMaxPosition;
+		tPOINT				ptMinTrackSize;
+		tPOINT				ptMaxTrackSize;
+	} tMINMAXINFO;
+
+	typedef struct {
+		long				hwnd;
+		long				hWndInsertAfter;
+		long				x;
+		long				y;
+		long				cx;
+		long				cy;
+		long				flags;
+	} tWINDOWPOS;
+
+	typedef struct {
+		tRECT				rgrc[2];
+		long				lppos;
+	} tNCCALCSIZE_PARAMS;
+
+	typedef struct {
+		long				vkCode;
+		long				scanCode;
+		long				flags;
+		long				time;
+		long				dwExtraInfo;
+	} tKBDLLHOOKSTRUCT;
+
+
+
+    [dllname("user32.dll")]
+    module user32 {
+
+		[entry("CallWindowProcA")] 
+			long CallWindowProc([in] long lpPrevWndFunc, [in] long hWnd, [in] long uMsg, [in] long wParam, [in] long lParam);
+
+		[entry("CallNextHookEx")]	
+			long CallNextHookEx([in] long hHook, [in] long nCode, [in] long wParam, [in] void *lParam);
+
+		[entry("CopyRect")]
+			long CopyRect([in, out] tRECT* lpDestRect, [in] tRECT* lpSourceRect);
+
+		[entry("CreateWindowExA")] 
+			long CreateWindowEx([in] long dwExStyle, [in] LPSTR lpClassName, [in] LPSTR lpWindowName, [in] long dwStyle, 
+			[in] long x, [in] long y, [in] long nWidth, [in] long nHeight, [in] long hWndParent, [in] long hMenu, 
+			[in] long hInstance, [in] void* lpParam);
+
+		[entry("DefWindowProcA")]
+			long DefWindowProc([in] long hWnd, [in] long uMsg, [in] long wParam, [in] long lParam);
+
+		[entry("DestroyIcon")] 
+			long DestroyIcon([in] long hIcon);
+
+		[entry("DestroyWindow")] 
+			long DestroyWindow([in] long hWnd);
+
+		[entry("DrawEdge")]
+			long DrawEdge([in] long hdc, [in] tRECT* pRect, [in] long edge, [in] long grfFlags);
+
+		[entry("DrawFocusRect")]
+			long DrawFocusRect([in] long hdc, [in] tRECT* pRect);
+
+		[entry("DrawIconEx")] 
+			long DrawIconEx([in] long hdc, [in] long xLeft, [in] long yTop, [in] long hIcon, [in] long cxWidth, 
+			[in] long cyWidth, [in] long istepIfAniCur, [in] long hbrFlickerFreeDraw, [in] long diFlags);
+
+		[entry("DrawState")] 
+			long DrawState([in] long hdc, [in] long hBrush, [in] long lpDrawStateProc, [in] long lParam, [in] long wParam, 
+			[in] long x, [in] long y, [in] long cx, [in] long cy, [in] long fuFlags);
+
+		[entry("DrawTextA")]
+			long DrawText([in] long hdc, [in] LPSTR lpStr, [in] long nCount, [in] tRECT* pRect, [in] long wFormat);
+
+		[entry("FindWindowA")] 
+			long FindWindow([in] LPSTR lpClassName, [in] LPSTR lpWindowName);
+
+		[entry("FindWindowExA")] 
+			long FindWindowEx([in] long hWnd1, [in] long hWnd2, [in] LPSTR lpClassName, [in] LPSTR lpWindowName);
+
+		[entry("FillRect")]
+			long FillRect([in] long hDC, [in] tRECT* pRect, [in] long hBrush);
+
+		[entry("GetActiveWindow")]
+			long GetActiveWindow();
+
+		[entry("GetAsyncKeyState")]
+			short GetAsyncKeyState([in] long vKey);
+
+		[entry("GetKeyState")]
+			short GetKeyState([in] long nVirtKey);
+
+		[entry("GetClassNameA")] 
+			long GetClassName([in] long hwnd, [in] LPSTR hInstance, [in] long nMaxCount);
+
+		[entry("GetClientRect")]
+			long GetClientRect([in] long hWnd, [in, out] tRECT* pRect);
+
+		[entry("GetCursorPos")]
+			long GetCursorPos([in, out] tPOINT* lpPoint);
+
+		[entry("GetDC")]
+			long GetDC([in] long hwnd);
+
+		[entry("GetDesktopWindow")]
+			long GetDesktopWindow();
+
+		[entry("GetMenu")]
+			long GetMenu([in] long hwnd);
+
+		[entry("GetMenuItemCount")]
+			long GetMenuItemCount([in] long hMenu);
+
+		[entry("GetMenuItemID")]
+			long GetMenuItemID([in] long hMenu, [in] long nPos);
+
+		[entry("GetMenuItemInfoA")]
+			long GetMenuItemInfo([in] long hMenu, [in] long uItem, [in] long fByPosition, [in] [in, out] tMENUITEMINFO* pMenuInfo);
+
+		[entry("GetMenuItemInfoA")]
+			long GetMenuItemInfoStr([in] long hMenu, [in] long uItem, [in] long fByPosition, [in] [in, out] tMENUITEMINFO_STRINGDATA* pMenuInfo);
+
+		[entry("GetParent")]
+			long GetParent([in] long hwnd);
+
+		[entry("GetSubMenu")]
+			long GetSubMenu([in] long hMenu, [in] long nPos);
+
+		[entry("GetSystemMetrics")]
+			long GetSystemMetrics([in] long nIndex);
+
+		[entry("GetWindow")]
+			long GetWindow([in] long hwnd, [in] long wCmd);
+
+		[entry("GetWindowDC")]
+			long GetWindowDC([in] long hwnd);
+
+		[entry("GetWindowRect")]
+			long GetWindowRect([in] long hWnd, [in, out] tRECT* pRect);
+
+		[entry("GetPropA")]
+			long GetProp([in] long hWnd, [in] LPSTR lpString);
+
+		[entry("GetWindowLongA")] 
+			long GetWindowLong([in] long hWnd, [in] long nIndex);
+
+		[entry("GetSysColor")]
+			long GetSysColor([in] long nIndex);
+
+		[entry("GetSysColorBrush")]
+			long GetSysColorBrush([in] long nIndex);
+
+		[entry("GetWindowThreadProcessId")]
+			long GetWindowThreadProcessId([in] long hwnd, [in, out] void* lLong);	
+
+		[entry("InflateRect")]
+			long InflateRect([in] tRECT* pRect, [in] long x, [in] long y);
+
+		[entry("InvalidateRect")] 
+			long InvalidateRect([in] long hWnd, [in] long lpRect, [in] long bErase);
+
+		[entry("IsWindow")] 
+			long IsWindow([in] long hWnd);
+
+		[entry("IsWindowVisible")]
+			long IsWindowVisible([in] long hWnd);
+
+		[entry("KillTimer")]
+			long KillTimer([in] long hWnd, [in] long idEvent);
+
+		[entry("MapWindowPoints")]
+			long MapWindowPoints([in] long hwndFrom, [in] long hwndTo, [in, out] void* lppt, [in] long cPoints);
+
+		[entry("MoveWindow")]
+			long MoveWindow([in] long hWnd, [in] long x, [in] long y, [in] long nWidth, [in] long nHeight, [in] long bRepaint);
+
+		[entry("OffsetRect")]
+			long OffsetRect([in] tRECT* Rect, [in] long x, [in] long y);
+
+		[entry("PostMessageA")] 
+			long PostMessage([in] long hWnd, [in] long wMsg, [in] long wParam, [in] long lParam);
+
+		[entry("PtInRect")]
+			long PtInRect([in] tRECT* Rect, [in] long x, [in] long y);
+
+		[entry("RedrawWindow")]
+			long RedrawWindow([in] long hWnd, [in, out] void* lprcUpdate, [in] long hrgnUpdate, [in] long fuRedraw);
+
+		[entry("RegisterClassExA")]
+			short RegisterClassEx([in] tWNDCLASSEX* pWndClassEx);
+
+		[entry("ReleaseDC")]
+			long ReleaseDC([in] long hwnd, [in] long hdc);
+
+		[entry("RemovePropA")]
+			long RemoveProp([in] long hWnd, [in] LPSTR lpString);
+
+		[entry("ScreenToClient")]
+			long ScreenToClient([in] long hWnd, [in] tPOINT* lpPoint);
+
+		[entry("SetMenu")]
+			long SetMenu([in] long hWnd, [in] long hMenu);
+
+		[entry("SendMessageA")]
+			long SendMessage([in] long hWnd, [in] long wMsg, [in] long wParam, [in] void* lParam);
+
+		[entry("SendMessageA")]
+			long SendMessageLong([in] long hWnd, [in] long wMsg, [in] long wParam, [in] long lParam);
+
+		[entry("SetLayeredWindowAttributes")]
+			long SetLayeredWindowAttributes([in] long hWnd, [in] byte crey, [in] byte bAlpha, [in] long dwFlags);
+
+		[entry("SetMenuItemInfoA")]
+			long SetMenuItemInfo([in] long hMenu, [in] long un, [in] long bool, [in] [in, out] tMENUITEMINFO* pMenuInfo);
+
+		[entry("SetMenuItemInfoA")]
+			long SetMenuItemInfoStr([in] long hMenu, [in] long un, [in] long bool, [in] [in, out] tMENUITEMINFO_STRINGDATA* pMenuInfo);
+
+		[entry("SetPropA")]
+			long SetProp([in] long hWnd, [in] LPSTR lpString, [in] long hData);
+
+		[entry("SetTimer")]
+			long SetTimer([in] long hWnd, [in] long idEvent, [in] long uElapse, [in] long lpTimerFunc);
+
+		[entry("SetWindowPos")]
+			long SetWindowPos([in] long hWnd, [in] long hWndInsertAfter, [in] long x, [in] long y, [in] long cx, [in] long cy, [in] long wFlags);
+
+		[entry("SetWindowsHookExA")]
+			long SetWindowsHookEx([in] long idHook, [in] long lpfn, [in] long hmod, [in] long dwThreadId);
+
+		[entry("SetWindowLongA")] 
+			long SetWindowLong([in] long hWnd, [in] long nIndex, [in] long dwNewLong);
+
+		[entry("ShowWindow")]
+			long ShowWindow([in] long hWnd, [in] long nCmdShow);
+
+		[entry("SystemParametersInfoA")]
+			long SystemParametersInfo([in] long uAction, [in] long uParam, [in, out] void *lpvParam, [in] long fuWinIni);
+
+		[entry("TrackMouseEvent")]
+			long TrackMouseEvent([in] tTRACKMOUSEEVENT* pTrackMouse);
+
+		[entry("TrackPopupMenuEx")]
+			long TrackPopupMenuEx([in] long hMenu, [in] long un, [in] long n1, [in] long n2, [in] long hwnd, [in] tTPMPARAMS* pTPMParams);
+
+		[entry("UnhookWindowsHookEx")]
+			long UnhookWindowsHookEx([in] long hhk);
+
+		[entry("UpdateLayeredWindow")]
+			long UpdateLayeredWindow([in] long hWnd, [in] long hdcDest, [in] void *ptDst, [in] void *pSize, 
+			[in] long hdcSrc, [in] void *ptSrc, [in] long crKey, [in] void *pBlend, [in] long dwFlags);
+
+		[entry("UnregisterClassA")] 
+			long UnregisterClass([in] LPSTR lpClassname, [in] long hInstance);
+
+		[entry("UpdateWindow")]
+			long UpdateWindow([in] long hWnd);
+
+		[entry("WindowFromDC")]
+			long WindowFromDC([in] long hdc);
+    };
+
+
+    [dllname("olepro32.dll")]
+    module olepro32 {
+		[entry("OleTranslateColor")]
+			long OleTranslateColor([in] long olecolor, [in] long hpalette, [in] long colorref);
+	};
+
+
+
+    [dllname("shlwapi.dll")]
+    module shlwapi {
+		[entry("PathCompactPathA")]
+			long PathCompactPath([in] long hdc, [in] LPSTR lpPath, [in] long dx);
+	};
+
+
+    [dllname("Comctl32.dll")]
+    module Comctl32 {
+
+		[entry("ImageList_AddMasked")]
+			long ImageList_AddMasked([in] long hImageList, [in] long hbmImage, [in] long crMask);
+
+		[entry("ImageList_Create")]
+			long ImageList_Create([in] long MinCx, [in] long MinCy, [in] long flags, [in] long cInitial, [in] long cGrow);
+
+		[entry("ImageList_Draw")]
+			long ImageList_Draw([in] long hImageList, [in] long lIndex, [in] long hdc, [in] long x, [in] long y, [in] long fStyle);
+
+		[entry("ImageList_Destroy")]
+			long ImageList_Destroy([in] long hImageList);
+
+		[entry("ImageList_GetImageRect")]
+			long ImageList_GetImageRect([in] long hIml, [in] long lIndex, [in] tRECT* pRect);
+
+		[entry("ImageList_GetIcon")]
+			long ImageList_GetIcon([in] long hIml, [in] long lIndex, [in] long diIgnore);
+
+		[entry("_TrackMouseEvent")]
+			long TrackMouseEventComCtl([in, out] tTRACKMOUSEEVENT* lpEventTrack);
+
+		[entry("InitCommonControls")]
+			void InitCommonControls();
+	};
+
+    [dllname("kernel32.dll")]
+    module Kernel32 {
+        [entry("RtlMoveMemory")] 
+			void CopyMemBr([in] void* lDest, [in] void* lSource, [in] long cbCopy);
+
+        [entry("RtlMoveMemory")] 
+			void CopyMemBv([in] long lDestAdd, [in] long lSrcAdd, [in] long cbCopy);
+
+		[entry("FreeLibrary")] 
+			long FreeLibrary([in] long hLibModule);
+
+        [entry("GetCurrentProcessId")] 
+			long GetCurrentProcessId();
+
+        [entry("GetCurrentThreadId")] 
+			long GetCurrentThreadId();
+
+		[entry("GetVersionExA")]
+			long GetVersionEx([in] tOSVERSIONINFO* pVersionInformation);
+
+        [entry("GlobalAlloc")] 
+			long GlobalAlloc([in] long wFlags, [in] long dwBytes);
+
+        [entry("GlobalFree")] 
+			long GlobalFree([in] long hMem);
+
+        [entry("GetModuleHandleA")] 
+			long GetModuleHandle([in] LPSTR lpModuleName);
+
+        [entry("GetProcAddress")] 
+			long GetProcAddress([in] long hModule,  [in] LPSTR lpProcName);
+
+		[entry("IsBadCodePtr")] 
+			long IsBadCodePtr([in] long lpfn);
+
+		[entry("lstrlenA")] 
+			long lstrlen([in] LPSTR lpString);
+
+		[entry("LoadLibraryA")] 
+			long LoadLibraryA([in] long lpLibFileName);
+
+		[entry("MulDiv")] 
+			long MulDiv([in] long nNumber, [in] long nNumerator, [in] long nDenominator);
+
+		[entry("Sleep")] 
+			long Sleep([in] long dwMilliseconds);
+
+		[entry("VirtualAlloc")] 
+			long VirtualAlloc([in] long lpAddress, [in] long dwSize, [in] long flAllocationType, [in] long flProtect);
+
+		[entry("VirtualFree")] 
+			long VirtualFree([in] long lpAddress, [in] long dwSize, [in] long dwFreeType);
+
+		[entry("RtlZeroMemory")] 
+			long ZeroMemory([in] long lpDst, [in] long Length);
+	};
+
+
+    [dllname("Msimg32.dll")]
+    module Msimg32 {
+
+		[entry("AlphaBlend")]
+			long AlphaBlend([in] long hDC, [in] long lDstX, [in] long lDstY, [in] long lDstWidth, [in] long lDstHeight, 
+			[in] long lSrcDc, [in] long lSrcX, [in] long lSrcY, [in] long lSrcWidth, [in] long lSrcHeight, [in] long lpBlend);
+
+		[entry("GradientFill")]
+			long GradientFill([in] long hDC, [in] tBITMAPINFOHEADER* pVertex, [in] long dwNumVertex, 
+			[in] tGRADIENTRECT* pMesh, [in] long dwNumMesh, [in] long dwMode);
+
+		[entry("TransparentBlt")]
+			long TransparentBlt([in] long hDC, [in] long lDstX, [in] long lDstY, [in] long lDstWidth, [in] long lDstHeight, 
+			[in] long lSrcDc, [in] long lSrcX, [in] long lSrcY, [in] long lSrcWidth, [in] long lSrcHeight, [in] long lCrTrans);
+	};
+
+
+    [dllname("gdi32.dll")]
+    module Gdi32 {
+
+		[entry("BitBlt")]
+			long BitBlt([in] long hDestDC, [in] long x, [in] long y, [in] long nWidth, [in] long nHeight, [in] long hSrcDC, 
+			[in] long xSrc, [in] long ySrc, [in] long dwRop);
+
+		[entry("CreateBitmapIndirect")]
+			long CreateBitmapIndirect([in] tBITMAP* pBitMap);
+
+		[entry("CreateBrushIndirect")]
+			long CreateBrushIndirect([in] tLOGBRUSH* pLogBrush);
+
+		[entry("CreateCompatibleBitmap")]	
+			long CreateCompatibleBitmap([in] long hDC, [in] long nWidth, [in] long nHeight);
+
+		[entry("CreateCompatibleDC")]
+			long CreateCompatibleDC([in] long hDC);
+
+		[entry("CreateDCA")]
+			long CreateDCAsNull([in] LPSTR lpDriverName, [in] void* lpDeviceName, [in] void* lpOutput, [in] void* lpInitData);
+
+		[entry("CreateDIBSection")]
+			long CreateDIBSection([in] long hDC, [in] tBITMAPINFOHEADER* pBitmapInfo, [in] long lun, [in, out] long* lplpVoid, 
+			[in] long Handle, [in] long dw);
+
+		[entry("CreateFontIndirectA")] 
+			long  CreateFontIndirect([in] tLOGFONT* lpLogFont);
+
+		[entry("CreatePatternBrush")]
+			long CreatePatternBrush ([in] long hBitmap);
+
+		[entry("CreatePen")]
+			long CreatePen ([in] long nPenStyle, [in] long nWidth, [in] long crColor);
+
+		[entry("CreateSolidBrush")] 
+			long  CreateSolidBrush([in] long crColor);
+
+		[entry("DeleteDC")]
+			long DeleteDC([in] long hDC);
+
+		[entry("DeleteObject")]
+			long DeleteObject([in] long hObject);
+
+		[entry("ExcludeClipRect")]
+			long ExcludeClipRect ([in] long hdc, [in] long x1, [in] long y1, [in] long x2, [in] long y2);
+
+		[entry("GetDeviceCaps")]
+			long GetDeviceCaps([in] long hdc, [in] long nIndex);
+
+		[entry("GetObjectA")]
+			long GetBmpObject([in] long hObject, [in] long nCount, [in] tBITMAP* pBitmap);
+
+		[entry("GetPixel")]
+			long GetPixel([in] long hdc, [in] long x, [in] long y);
+
+		[entry("GetTextExtentPoint32A")]
+			long GetTextExtentPoint32([in] long hdc, [in] LPSTR lpsz, [in] long cbString, [in, out] tPOINT* lpSize);
+
+		[entry("LineTo")]
+			long LineTo ([in] long hDC, [in] long x, [in] long y);
+
+		[entry("MoveToEx")]
+			long MoveToEx([in] long hDC, [in] long x, [in] long y, [in] tPOINT* lpPoint);
+
+		[entry("PatBlt")]
+			long PatBlt([in] long hDestDC, [in] long x, [in] long y, [in] long nWidth, [in] long nHeight, [in] long dwRop);
+
+		[entry("SelectClipRgn")]
+			long SelectClipRgn([in] long hDC, [in] long hRgn);
+
+		[entry("SelectObject")]
+			long SelectObject([in] long hDC, [in] long hObject);
+
+		[entry("SetBkColor")]
+			long SetBkColor([in] long hdc, [in] long crColor);
+
+		[entry("SetBkMode")]
+			long SetBkMode([in] long hdc, [in] long nBkMode);
+
+		[entry("SetBrushOrgEx")]
+			long SetBrushOrgEx([in] long hdc, [in] long nXOrg, [in] long nYOrg, [in] void* lppt);
+
+		[entry("SetPixel")]
+			long SetPixel([in] long hDC, [in] long x, [in] long y, [in] long crColor);
+
+		[entry("SetStretchBltMode")]
+			long SetStretchBltMode([in] long hDC, [in] long hStretchMode);
+
+		[entry("SetTextColor")]
+			long SetTextColor([in] long hDC, [in] long crColor);
+
+		[entry("StretchBlt")]
+			long StretchBlt([in] long hDC, [in] long lDstX, [in] long lDstY, [in] long lDstWidth, [in] long lDstHeight, 
+			[in] long lSrcDc, [in] long lSrcX, [in] long lSrcY, [in] long lSrcWidth, [in] long lSrcHeight, [in] long lFlags);
+
+		[entry("StretchDIBits")]
+			long StretchDIBits([in] long hDC, [in] long lDstX, [in] long lDstY, [in] long lDstWidth, [in] long lDstHeight, 
+			[in] long lSrcWidth, [in] long lSrcHeight, [in] void* lpBits, [in] tBITMAPINFOHEADER* pBitmapInfo, [in] long wUsage, [in] long dwRop);
+    };
+
+	[dllname("msvbvm60.dll")]
+	module msvbvm60 {
+
+		// return any array pointer type except string, ex. lPtr = GetAVPtr(lngArray) 
+		[entry("VarPtr"), helpstring("Return a pointer to an array.")]
+		long __stdcall GetAVPtr([in] SAFEARRAY(void) * aPtr);
+
+		// return string array pointer, ex. lPtr = GetASPtr(strArray) 
+		[entry("VarPtr"), helpstring("Return a pointer to a string array.")]
+		long __stdcall GetASPtr([in] SAFEARRAY(BSTR) * aPtr);
+
+		// return variant pointer, eq. VarPtr, returns mem location 
+	    [entry("VarPtr"), helpstring("Return a pointer to a variant.")]
+		long __stdcall GetVarPtr([in] void * lpRetVal);
+
+		[entry("VarPtr"), helpstring("Return a pointer to an object.")]
+		long __stdcall GetObjPtr([in] IUnknown* Ptr);
+
+		// return string pointer, eq. StrPtr, return an array members string mem location 
+	    [entry("VarPtr"), helpstring("Return a pointer to a string.")]
+		long __stdcall GetStrPtr([in] BSTR BStr);
+	};
+
+};

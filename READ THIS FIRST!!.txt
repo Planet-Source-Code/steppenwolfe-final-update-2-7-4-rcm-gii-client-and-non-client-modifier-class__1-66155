@@ -1,0 +1,10 @@
+RCM 2.7.3
+September 16, 2006
+Author John Underhill (Steppenwolfe)
+You can use this code in any way you like, so long as you give the proper credit to the author (thats me!)..
+
+Registering a typelib:
+Open the typelib library project. Go to project> references. Remove the 'WinSubHookGX Subclassing Interface' typelib reference. Save the project.
+Open references again and browse to the TypeLib folder. Add the 'WinSubHookGX.tlb' file. Save the project, close, and open the group project to test it.
+
+Enjoy!
