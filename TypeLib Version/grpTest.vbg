@@ -1,0 +1,3 @@
+VBGROUP 5.0
+Project=Library\RCMG2.vbp
+StartupProject=Test Harness\prjSkinTest.vbp

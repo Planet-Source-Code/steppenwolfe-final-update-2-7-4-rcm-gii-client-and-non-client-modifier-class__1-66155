@@ -1,0 +1,122 @@
+'*~ List of exposed functions ~*
+'/~ Attatch                     - start
+'/~ Clean_Up                    - manually destroy resources (not used)
+'/  Change_Caption              - change the forms caption
+
+'/~ Image Properties /~
+'/~ p_ICaption                  - caption bar image
+'/~ p_ICBottom                  - bottom border image
+'/~ p_ICLeft                    - left border image
+'/~ p_ICRight                   - right border image
+'/~ p_ICBoxMin                  - control box minimize
+'/~ p_ICBoxMax                  - control box maximize
+'/~ p_ICBoxRst                  - control box restore
+'/~ p_ICBoxCls                  - control box close
+'/~ p_IMenuBg                   - menu bg image
+'/~ p_IMenuRollover             - menu hilite bar image
+'/~ p_IMenuBarBg                - menu caption bar image
+'/~ p_IChkImg                   - checkbox image
+'/~ p_IOptImg                   - option button image
+'/~ p_ICmdImg                   - command button image
+'/~ p_IComboImg                 - combobox image
+'/~ p_IWaterMark                - watermark image
+'/~ p_IListViewHeader           - listview header image
+'/~ p_IScrollVTrack             - scrollbar vertical track
+'/~ p_IScrollVThumb             - scrollbar vertical thumb
+'/~ p_IScrollVBtDwn             - scrollbar vertical button down
+'/~ p_IScrollVBtUp              - scrollbar vertical button up
+'/~ p_IScrollHTrack             - scrollbar horizontal track
+'/~ p_IScrollHThumb             - scrollbar horizontal thumb
+'/~ p_IScrollHBtLft             - scrollbar horizontal button left
+'/~ p_IScrollHBtRgt             - scrollbar horizontal button right
+'/~ p_IScrollSizer              - scrollbar sizer corner
+
+'/~ Form Properties /~
+'/~ p_BottomSizingBorder        - bottom sizing border                  (long)
+'/~ p_ButtonOffsetX             - control button offset horz            (long)
+'/~ p_ButtonOffsetY             - control button offset vert            (long)
+'/~ p_CustomCaption             - use owner drawn caption text          (str)
+'/~ p_CaptionFntClr             - caption text font color               (long)
+'/~ p_CaptionFrame              - use a caption bar text frame image    (bool)
+'/~ p_CaptionOffset             - caption title offset                  (long)
+'/~ p_CenterCaption             - center caption on form                (bool)
+'/~ p_UseFormIcon               - use forms icon                        (bool)
+'/~ p_UseFormCaption            - use forms caption text                (bool)
+'/~ p_TopSizingBorder           - top sizing border height              (long)
+'/~ p_BottomSizingBorder        - bottom sizing border                  (long)
+'/~ p_MinFormHeight             - minimum form height dimension         (long)
+'/~ p_MinFormWidth              - minimum form width dimension          (long)
+'/~ p_CaptionOffsetX            - caption offset position X             (long)
+'/~ p_CaptionOffsetY            - caption offset position Y             (long)
+'/~ p_ThreadAccel               - thread accleration switch             (bool)
+
+'/~ Menu Properties /~
+'/~ p_MenuCustom                - use skinned menus                     (bool)
+'/~ p_MenuActiveForeColor       - active menu item selected color       (long)
+'/~ p_MenuInActiveForeColor     - active menu item color                (long)
+'/~ p_MenuBackgroundColor       - menu bg color                         (long)
+'/~ p_MenuOffsetX               - menu start position X                 (long)
+'/~ p_MenuOffsetY               - menu start position Y                 (long)
+'/~ p_MenuImageList             - menu image list                       (var)
+'/~ p_MenuIconIndex             - icon index collection                 (long)
+'/~ p_MenuRollOver              - custom caption rollover effect        (bool)
+'/~ p_MenuRollOverColor         - captionbar rollover accent color      (long)
+'/~ p_MenuFont                  - specify menu font (default is form)   (str)
+'/~ p_MenuRollOverStyle         - rollover bar style                    (bool)
+'/~ p_OfficeXpStyle             - office xp style menu                  (bool)
+'/~ p_MenuTransparent           - use transparent menus (2K/XP)         (bool)
+'/~ p_MenuTransIdx              - transparency level (1 - 255)          (byte)
+
+'/~ Command Button Properties /~
+'/~ p_SkinCommand               - skin command buttons                  (bool)
+'/~ p_CmdTransColor             - transparent color                     (long)
+'/~ p_CmdCaption                - control caption                       (str)
+'/~ p_CmdRenderOffsetX          - stretchblt offset X                   (long)
+'/~ p_CmdRenderOffsetY          - stretchblt offset Y                   (long)
+'/~ p_CmdForeColor              - button text color                     (long)
+'/~ p_CmdColorHiLite            - button over text color                (long)
+'/~ p_CmdDrawFocused            - draw focus rect                       (bool)
+'/~ p_CmdTextAntiAliased        - use anti-aliased caption              (bool)
+'/~ p_CmdIconPosition           - icon position                         (enum)
+
+'/~ Option Button Properties /~
+'/~ p_SkinOptionButton          - skin option buttons                   (bool)
+'/~ p_OptTransColor             - transparent color                     (long)
+
+'/~ CheckBox Properties /~
+'/~ p_SkinCheckbox              - skin checkboxes                       (bool)
+'/~ p_ChkTransColor             - transparent color                     (long)
+
+'/~ ComboBox Properties /~
+'/~ p_SkinComboBox              - skin checkboxes                       (bool)
+'/~ p_ComboTransColor           - transparent color                     (long)
+'/~ p_ComboFrameColor           - base frame color                      (long)
+'/~ p_ComboFrameHighLite        - frame accent color                    (long)
+'/~ p_ComboFrameStyle           - frame style                           (enum)
+
+'/~ WaterMark Properties /~
+'/~ p_WaterMarkPosition         - position options                      (enum)
+'/~ p_WaterMarkCtrlHnd          - control handle                        (long)
+
+'/~ Frame Style Properties /~
+'/~ p_FrameColorNormal          - frame normal color                    (long)
+'/~ p_FrameColorHover           - frame mouse over color                (long)
+'/~ p_FrameColorFocused         - frame focused color                   (long)
+'/~ p_FrameListView             - apply to listview                     (bool)
+'/~ p_FrameTextBox              - apply to textbox                      (bool)
+'/~ p_FrameTreeView             - apply to treeview                     (bool)
+'/~ p_FrameFileListBox          - apply to file listbox                 (bool)
+'/~ p_FrameDirListBox           - apply to dir listbox                  (bool)
+'/~ p_FrameListBox              - apply to listbox                      (bool)
+'/~ p_FramePictureBox           - apply to picturebox                   (bool)
+
+'/~ ListView Properties /~
+'/~ p_SkinListView              - skin listview headers                 (bool)
+'/~ p_OListViewObj              - control object                        (obj)
+'/~ p_ListViewFlatPanel         - use flat header bg                    (bool)
+'/~ p_ListViewTextAntiAliased   - use anti-aliased caption              (bool)
+'/~ p_ListViewForeColor         - header font color                     (long)
+'/~ p_ListViewHighLite          - header font highlite color            (long)
+
+'/~ ScrollBar Properties /~
+'/~ p_ScrollBarAdd              - add scrollbars to a control           (long)
